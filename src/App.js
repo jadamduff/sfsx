@@ -1,26 +1,45 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+
+import * as Section from './components/sections/styles';
+import Header from './components/ui/Header';
+import OrderForm from './components/order_form/OrderForm';
+import TradingLog from './components/trading_log/TradingLog';
+
 import './App.css';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedStock: false
+    }
+  }
+
+  changeStock = (value) => {
+    this.setState({
+      selectedStock: value
+    })
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <React.Fragment>
+        <Section.BodyGridContainer>
+          <Section.Body>
+            <Header />
+            <Section.Form>
+              <OrderForm
+                changeStock={this.changeStock}
+              />
+            </Section.Form>
+            <Section.Graph>
+              <Section.GraphTop></Section.GraphTop>
+              <Section.GraphBottom></Section.GraphBottom>
+            </Section.Graph>
+          </Section.Body>
+        </Section.BodyGridContainer>
+        <TradingLog />
+      </React.Fragment>
     );
   }
 }
