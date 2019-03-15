@@ -33,9 +33,11 @@ class App extends Component {
               />
             </Section.Form>
             <Section.Graph>
-              <Section.GraphTop></Section.GraphTop>
-              <Section.GraphBottom></Section.GraphBottom>
+            test
             </Section.Graph>
+            <Section.List>
+            test
+            </Section.List>
           </Section.Body>
         </Section.BodyGridContainer>
         <TradingLog />
