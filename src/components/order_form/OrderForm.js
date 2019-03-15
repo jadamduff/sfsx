@@ -13,7 +13,7 @@ class OrderForm extends Component {
       formData: {
         stock: false,
         trader: '',
-        price: '',
+        price: '0.00',
         shares: '',
         buySell: 'buy'
       },
@@ -37,16 +37,39 @@ class OrderForm extends Component {
   }
 
   handleInputChange = (event, type) => {
-    let value;
+    let value = event.target.value;
     switch (type) {
       case 'money':
-        value = formatMoney(event.target.value)
+        let scrubbed = event.target.value.replace(/\D/g,'').split('');
+        if (scrubbed[0] === '0') {
+          scrubbed.shift();
+        }
+        if (scrubbed.length < 2) {
+          scrubbed.unshift('0');
+          scrubbed.unshift('.');
+        } else if (scrubbed.length === 2) {
+          scrubbed.unshift('.');
+        } else {
+          scrubbed.splice(scrubbed.length - 2, 0, ".");
+        }
+        debugger
+        value = formatMoney(scrubbed.join(''), 2);
         break;
+      case 'number':
+        value = event.target.value.replace(/\D/g,'');
+        break;
+
       default:
         value = event.target.value
     }
+    const _formatMoney = formatMoney
+    debugger
     this.setState({
-      [event.target.name]: value
+      formData: {
+        ...this.state.formData,
+        [event.target.name]: value
+      }
+
     })
   }
 
@@ -74,13 +97,13 @@ class OrderForm extends Component {
         {!this.state.dropdownOpen &&
           <styles.BodyContainer>
             <styles.BodyRow>
-              <styles.Label>Trader</styles.Label><Input />
+              <styles.Label>Trader</styles.Label><Input value={trader} name="trader" handleChange={this.handleInputChange} />
             </styles.BodyRow>
             <styles.BodyRow>
-              <styles.Label>Price</styles.Label><Input type="money" />
+              <styles.Label>Price</styles.Label><Input value={price} name="price" type="money" handleChange={this.handleInputChange} />
             </styles.BodyRow>
             <styles.BodyRow>
-              <styles.Label>Shares</styles.Label><Input />
+              <styles.Label>Shares</styles.Label><Input value={shares} name="shares" type="number" handleChange={this.handleInputChange}/>
             </styles.BodyRow>
             <styles.Submit type="submit">Place Order</styles.Submit>
           </styles.BodyContainer>

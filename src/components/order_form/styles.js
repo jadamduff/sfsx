@@ -80,7 +80,7 @@ export const Submit = styled.button`
   font-size: 14px;
   height: 50px;
   color: #ffffff;
-  width: 90%;
+  width: 100%;
   border-radius: 3px;
   background-image: linear-gradient(135deg, rgba(106,17,203,1), rgba(37,117,252,1));
   cursor: pointer;

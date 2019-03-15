@@ -6,6 +6,7 @@ import { jsx, css } from '@emotion/core'
 import * as Form from '../styles';
 
 const Input = (props) => {
+  const { value, name, type, handleChange } = props;
   return (
     <React.Fragment>
       {props.type === 'money' &&
@@ -18,7 +19,7 @@ const Input = (props) => {
           $
         </div>
       }
-      <Form.Input />
+      <Form.Input value={value} name={name} onChange={(event) => (handleChange(event, type))}/>
     </React.Fragment>
   )
 }
