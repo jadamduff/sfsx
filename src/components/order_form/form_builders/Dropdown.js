@@ -14,7 +14,12 @@ class Dropdown extends Component {
   }
 
   renderSelectedStock = () => {
-    return this.props.stock ? this.props.stock : 'Select One'
+    return this.props.selectedStock ? this.props.selectedStock : 'Select One'
+  }
+
+  handleSelect = (event) => {
+    this.props.selectStock(event);
+    this.props.toggleDropdownOpen();
   }
 
   render() {
@@ -48,10 +53,10 @@ class Dropdown extends Component {
         </DropdownBox>
         {this.props.dropdownOpen &&
           <React.Fragment>
-            <DropdownOption>GOOG</DropdownOption>
-            <DropdownOption>FB</DropdownOption>
-            <DropdownOption>ORCL</DropdownOption>
-            <DropdownOption>ZGRO</DropdownOption>
+            <DropdownOption data-id="GOOG" onClick={(event) => this.handleSelect(event)}>GOOG</DropdownOption>
+            <DropdownOption data-id="FB" onClick={(event) => this.handleSelect(event)}>FB</DropdownOption>
+            <DropdownOption data-id="ORCL" onClick={(event) => this.handleSelect(event)}>ORCL</DropdownOption>
+            <DropdownOption data-id="ZGRO" onClick={(event) => this.handleSelect(event)}>ZGRO</DropdownOption>
           </React.Fragment>
         }
       </DropdownContainer>

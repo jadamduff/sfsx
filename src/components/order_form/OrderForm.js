@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 
+/** @jsx jsx */
+import { jsx, css } from '@emotion/core'
+
 import * as styles from './styles'
 import { formatMoney } from '../../utils/general';
 
 import Dropdown from './form_builders/Dropdown'
 import Input from './form_builders/Input';
+import ToggleButton from './form_builders/ToggleButton';
 
 class OrderForm extends Component {
   constructor(props) {
@@ -28,11 +32,13 @@ class OrderForm extends Component {
   }
 
   selectStock = (event) => {
-    let value;
-    event.target.dataset.id === 'noselect' ? value = false : value = event.target.dataset.id
+    const value = event.target.dataset.id;
     this.props.changeStock(value);
     this.setState({
-      stock: value
+      formData: {
+        ...this.state.formData,
+        stock: value
+      }
     })
   }
 
@@ -74,8 +80,11 @@ class OrderForm extends Component {
   }
 
   toggleBuySell = () => {
-    this.setState((prevState) => ({
-      buySell: prevState.buySell === 'buy' ? 'sell' : 'buy'
+    this.setState(prevState => ({
+      formData: {
+        ...prevState.formData,
+        buySell: prevState.formData.buySell === 'buy' ? 'sell' : 'buy'
+      }
     }))
   }
 
@@ -93,7 +102,7 @@ class OrderForm extends Component {
     const { stock, trader, price, shares, buySell } = this.state.formData;
     return (
       <styles.Container>
-        <Dropdown selectedStock={stock} dropdownOpen={this.state.dropdownOpen} toggleDropdownOpen={this.toggleDropdownOpen}/>
+        <Dropdown selectedStock={stock} selectStock={this.selectStock} dropdownOpen={this.state.dropdownOpen} toggleDropdownOpen={this.toggleDropdownOpen}/>
         {!this.state.dropdownOpen &&
           <styles.BodyContainer>
             <styles.BodyRow>
@@ -105,6 +114,11 @@ class OrderForm extends Component {
             <styles.BodyRow>
               <styles.Label>Shares</styles.Label><Input value={shares} name="shares" type="number" handleChange={this.handleInputChange}/>
             </styles.BodyRow>
+            <styles.ToggleBodyRow>
+              <styles.Label css={buySell === "sell" && css`opacity: .4`}>Buy</styles.Label>
+              <ToggleButton position={buySell === "buy" ? "left" : "right"} onClick={() => this.toggleBuySell()} />
+              <styles.Label css={buySell === "buy" && css`opacity: .4`}>Sell</styles.Label>
+            </styles.ToggleBodyRow>
             <styles.Submit type="submit">Place Order</styles.Submit>
           </styles.BodyContainer>
         }

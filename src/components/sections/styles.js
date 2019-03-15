@@ -32,7 +32,7 @@ export const Graph = styled.div`
   background-color: green;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 275px auto
+  grid-template-rows: 375px auto
 `
 
 export const GraphTop = styled.div`

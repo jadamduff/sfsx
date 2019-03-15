@@ -74,6 +74,34 @@ export const Input = styled.input`
   outline: none
 `
 
+export const ToggleBodyRow = styled.div`
+  margin: 30px 0 15px 0;
+  text-align: center
+`
+
+export const ToggleButtonContainer = styled.div`
+  display: inline-block;
+  height: 20px;
+  width: 36px;
+  border-radius: 32px;
+  padding: 2px;
+  background-color: #424242;
+  box-sizing: border-box;
+  cursor: pointer;
+  margin: 0 25px;
+`
+
+export const ToggleButtonKnob = styled.div`
+  height: 16px;
+  width: 16px;
+  border-radius: 16px;
+  background-color: #fff;
+  transform: ${props =>
+    props.position
+  };
+  transition: transform .2s
+`
+
 export const Submit = styled.button`
   font-family: 'Montserrat', sans-serif;
   display: block;

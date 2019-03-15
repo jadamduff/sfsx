@@ -13,3 +13,8 @@ export function formatMoney(amount, decimalCount = 0, decimal = ".", thousands =
     console.log(e)
   }
 };
+
+export function timestamp() {
+  let date = new Date();
+  let timestamp = date.getMonth() + '-' + date.getDay + '-' + date.getFullYear() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+}

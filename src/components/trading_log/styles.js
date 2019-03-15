@@ -13,7 +13,6 @@ export const Container = styled.div`
   transition: height .2s;
   transition-timing-function: ease;
   font-family: 'Montserrat', sans-serif;
-  cursor: pointer;
   :hover {
     box-shadow: 0 4px 5px 5px rgba(0,0,0,0.06), 0 1px 10px 2px rgba(0,0,0,0.04), 0 2px 4px -1px rgba(0,0,0,0.2);
   }
@@ -28,6 +27,7 @@ export const Tab = styled.div`
   position: fixed;
   font-weight: 500px;
   grid-template-columns: 1fr auto;
+  cursor: pointer
 `
 
 export const TabLeft = styled.div`
