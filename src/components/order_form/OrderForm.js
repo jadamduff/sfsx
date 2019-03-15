@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 
+import { connect } from 'react-redux';
+
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core'
 
 import * as styles from './styles'
 import { formatMoney } from '../../utils/general';
+import { updateBook } from '../../actions/orders.js';
 
 import Dropdown from './form_builders/Dropdown'
 import Input from './form_builders/Input';
@@ -58,7 +61,7 @@ class OrderForm extends Component {
         } else {
           scrubbed.splice(scrubbed.length - 2, 0, ".");
         }
-        debugger
+
         value = formatMoney(scrubbed.join(''), 2);
         break;
       case 'number':
@@ -69,7 +72,7 @@ class OrderForm extends Component {
         value = event.target.value
     }
     const _formatMoney = formatMoney
-    debugger
+
     this.setState({
       formData: {
         ...this.state.formData,
@@ -88,6 +91,11 @@ class OrderForm extends Component {
     }))
   }
 
+  handleSubmit = (event) => {
+    event.preventDefault();
+    this.props.updateBook(this.state.formData);
+  }
+
   renderFormBody = () => {
     if (this.state.dropdownOpen) {
       return (
@@ -101,7 +109,7 @@ class OrderForm extends Component {
   render() {
     const { stock, trader, price, shares, buySell } = this.state.formData;
     return (
-      <styles.Container>
+      <styles.Container onSubmit={(event) => this.handleSubmit(event)}>
         <Dropdown selectedStock={stock} selectStock={this.selectStock} dropdownOpen={this.state.dropdownOpen} toggleDropdownOpen={this.toggleDropdownOpen}/>
         {!this.state.dropdownOpen &&
           <styles.BodyContainer>
@@ -127,4 +135,4 @@ class OrderForm extends Component {
   }
 }
 
-export default OrderForm;
+export default connect(null, { updateBook })(OrderForm);
