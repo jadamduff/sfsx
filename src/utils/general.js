@@ -16,5 +16,6 @@ export function formatMoney(amount, decimalCount = 0, decimal = ".", thousands =
 
 export function timestamp() {
   let date = new Date();
-  let timestamp = date.getMonth() + '-' + date.getDay + '-' + date.getFullYear() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+  let timestamp = (date.getMonth() + 1) + '-' + date.getDate() + '-' + date.getFullYear() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+  return timestamp;
 }

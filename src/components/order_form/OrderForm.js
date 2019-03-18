@@ -8,6 +8,7 @@ import { jsx, css } from '@emotion/core'
 import * as styles from './styles'
 import { formatMoney } from '../../utils/general';
 import { updateBook } from '../../actions/orders.js';
+import { updateFlag } from '../../actions/flags';
 
 import Dropdown from './form_builders/Dropdown'
 import Input from './form_builders/Input';
@@ -93,7 +94,22 @@ class OrderForm extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    this.props.updateBook(this.state.formData);
+    const { stock, trader, price, shares } = this.state.formData;
+    if (stock !== false && trader !== '' && price !== '0.00' && shares !== '' && shares !== '0') {
+      this.props.updateBook(this.state.formData);
+      this.setState((prevState) => ({
+        ...prevState,
+        formData: {
+          ...prevState.formData,
+          trader: '',
+          price: '0.00',
+          shares: '',
+        }
+      }))
+      this.props.updateFlag([{type: 'order', flag: 'status', value: 'success'}]);
+    } else {
+      this.props.updateFlag([{type: 'order', flag: 'status', value: 'missing'}]);
+    }
   }
 
   renderFormBody = () => {
@@ -128,6 +144,14 @@ class OrderForm extends Component {
               <styles.Label css={buySell === "buy" && css`opacity: .4`}>Sell</styles.Label>
             </styles.ToggleBodyRow>
             <styles.Submit type="submit">Place Order</styles.Submit>
+            <styles.FlashMessage>
+              <span css={css`
+                color: ${this.props.orderFlag === 'success' ? '#00C853' : '#E53935'}
+                `}>
+                {this.props.orderFlag === 'success' && "Order Placed"}
+                {this.props.orderFlag === 'missing' && "Missing order data"}
+              </span>
+            </styles.FlashMessage>
           </styles.BodyContainer>
         }
       </styles.Container>
@@ -135,4 +159,10 @@ class OrderForm extends Component {
   }
 }
 
-export default connect(null, { updateBook })(OrderForm);
+const mapStateToProps = (state) => {
+  return {
+    orderFlag: state.flags.order.status
+  }
+}
+
+export default connect(mapStateToProps, { updateBook, updateFlag })(OrderForm);

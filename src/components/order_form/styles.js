@@ -49,7 +49,7 @@ export const DropdownOption = styled.div`
 
 export const BodyContainer = styled.div`
   text-align: left;
-  margin: 25px 15px 15px 15px;
+  margin: 25px 15px 0 15px;
 `
 
 export const BodyRow = styled.div`
@@ -114,5 +114,11 @@ export const Submit = styled.button`
   cursor: pointer;
   outline: none;
   border: 0;
-  margin: 25px auto 0 auto;
+  margin: 25px auto 15px auto;
+`
+
+export const FlashMessage = styled.div`
+  height: 18px;
+  font-size: 14px;
+  text-align: center
 `
