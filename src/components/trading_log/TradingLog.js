@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { connect } from 'react-redux';
+
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core'
 
@@ -35,6 +37,21 @@ class TradingLog extends Component {
     }
   }
 
+  renderExecutions = () => {
+    return this.props.executions.map(exc => {
+      const { timestamp, ticker, price, shares } = exc;
+      return (
+        <styles.BodyRow>
+          <styles.BodyRowCell css={css`width: 140px; padding: 0 0 0 10px`}>{timestamp}</styles.BodyRowCell>
+          <styles.BodyRowCell>{ticker}</styles.BodyRowCell>
+          <styles.BodyRowCell>{price}</styles.BodyRowCell>
+          <styles.BodyRowCell>{shares}</styles.BodyRowCell>
+        </styles.BodyRow>
+      )
+    })
+  }
+
+
   render() {
 
     return (
@@ -68,9 +85,26 @@ class TradingLog extends Component {
             }
           </styles.TabRight>
         </styles.Tab>
+        <styles.BodyWrapper>
+          <styles.Body>
+            <styles.BodyHeader>
+              <styles.BodyRowCell css={css`width: 140px; padding: 0 0 0 10px`}>Timestamp</styles.BodyRowCell>
+              <styles.BodyRowCell>Ticker</styles.BodyRowCell>
+              <styles.BodyRowCell>Price</styles.BodyRowCell>
+              <styles.BodyRowCell>Shares</styles.BodyRowCell>
+            </styles.BodyHeader>
+            {this.renderExecutions()}
+          </styles.Body>
+        </styles.BodyWrapper>
       </styles.Container>
     )
   }
 }
 
-export default TradingLog;
+const mapStateToProps = (state) => {
+  return {
+    executions: state.book.executions
+  }
+}
+
+export default connect(mapStateToProps)(TradingLog);

@@ -14,7 +14,7 @@ export const Body = styled.div`
   height: 100%;
   display: grid;
   grid-template-columns: 2fr 3fr 4fr 2fr;
-  grid-template-rows: 85px 1fr 1fr;
+  grid-template-rows: 85px 375px auto;
   grid-template-areas:
     "h h h h"
     ". f g ."
@@ -35,5 +35,5 @@ export const Graph = styled.div`
 
 export const List = styled.div`
   grid-area: l;
-  background-color: blue
+  background-color: blue;
 `

@@ -2,7 +2,13 @@ import styled from '@emotion/styled';
 import { keyframes } from '@emotion/core'
 
 export const Container = styled.div`
-  width: 450px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 65px auto;
+  grid-template-areas:
+    "t"
+    "b";
+  width: 425px;
   background-color: #fff;
   border-top: 2px solid #424242;
   position: absolute;
@@ -19,8 +25,9 @@ export const Container = styled.div`
 `
 
 export const Tab = styled.div`
+  grid-area: t;
   display: grid;
-  width: 450px;
+  width: 425px;
   height: 65px;
   line-height: 65px;
   vertical-align: middle;
@@ -39,4 +46,34 @@ export const TabRight = styled.div`
   grid-column: 2 / 3;
   text-align: right;
   padding: 0 25px 0 0;
+`
+
+export const BodyWrapper = styled.div`
+  grid-area: b;
+  overflow: scroll;
+`
+
+export const Body = styled.div`
+  padding: 5px 30px 20px 30px;
+  white-space: nowrap;
+  font-size: 12px;
+`
+
+export const BodyHeader = styled.div`
+  font-weight: 500;
+  padding: 0 0 10px 0;
+`
+
+export const BodyRow = styled.div`
+  padding: 10px 0;
+  font-color: #616161;
+  :nth-child(even) {
+    background-color: #f6fcfe
+  }
+`
+
+export const BodyRowCell = styled.div`
+  display: inline-block;
+  vertical-align: top;
+  width: 75px;
 `
