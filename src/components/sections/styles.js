@@ -30,10 +30,8 @@ export const Form = styled.div`
 export const Graph = styled.div`
   height: 375px;
   grid-area: g;
-  background-color: green;
 `
 
 export const List = styled.div`
   grid-area: l;
-  background-color: blue;
 `

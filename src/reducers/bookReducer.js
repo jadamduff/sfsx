@@ -4,6 +4,7 @@ export default function bookReducer(state = {
   stocks: [
     {
       name: 'GOOG',
+      id: 'GOOG',
       buy: {
         prices: []
       },
@@ -13,6 +14,7 @@ export default function bookReducer(state = {
     },
     {
       name: 'FB',
+      id: 'FB',
       buy: {
         prices: []
       },
@@ -22,6 +24,7 @@ export default function bookReducer(state = {
     },
     {
       name: 'ORCL',
+      id: 'ORCL',
       buy: {
         prices: []
       },
@@ -31,6 +34,7 @@ export default function bookReducer(state = {
     },
     {
       name: 'ZGRO',
+      id: 'ZGRO',
       buy: {
         prices: []
       },
@@ -64,21 +68,21 @@ export default function bookReducer(state = {
           stock[oppBuySell].prices.forEach((price, i) => { // Iterate over stock's prices.
             if (order.buySell === "buy" && parseInt(price.price.replace(/\D/g,'')) < parsedOrderPrice) { // if order is to buy, and opposite side price is less than order price
               matchingPriceArr.push([price, i]); // Add to collection of executable prices.
-            } else if (parseInt(price.price.replace(/\D/g,'')) > parsedOrderPrice) { // if order is to sell, and opposite side price is greater than order price
+            } else if (order.buySell === "sell" && parseInt(price.price.replace(/\D/g,'')) > parsedOrderPrice) { // if order is to sell, and opposite side price is greater than order price
               matchingPriceArr.push([price, i]); // Add to collection of executable prices.
             }
           })
 
-          matchingPriceArr = matchingPriceArr.sort((a, b) => parseInt(b[0].order.price.replace(/\D/g,'')) - parseInt(a[0].order.price.replace(/\D/g,''))); // Sort the collected executable prices in descending order.
+          matchingPriceArr = matchingPriceArr.sort((a, b) => parseInt(b[0].price.replace(/\D/g,'')) - parseInt(a[0].price.replace(/\D/g,''))); // Sort the collected executable prices in descending order.
 
           matchingPriceArr.forEach((price, priceIndex) => { // Iterate over executable prices
-            if (order.restingShares > 0 && order !== undefined) { // If there are any resting shares left in our order
+            if (order !== undefined && order.restingShares > 0) { // If there are any resting shares left in our order
 
               price[0].orders.forEach((restingOrder, restingOrderIndex) => { // Iterate over resting orders for that price
                 const executionPrice = order.buySell === 'buy' ? order.price : restingOrder.price; // Execution price, determined by whether new order is buy or sell.
 
                 if (restingOrder.restingShares < order.restingShares) { // If opposite side order's resting shares are greater than new order's resting shares
-                  updatedExecutions.push({timestamp: timestamp(), ticker: stock.name, price: executionPrice, shares: order.restingShares - restingOrder.restingShares}); // Create new execution
+                  updatedExecutions.push({timestamp: timestamp(), ticker: stock.name, price: executionPrice, shares: restingOrder.restingShares}); // Create new execution
                   order.restingShares = order.restingShares - restingOrder.restingShares; // Update new order's resting shares.
                   stockArr[stockIndex][oppBuySell].prices[price[1]].orders[restingOrderIndex].restingShares = 0; // Opposite side order's resting shares are gone.
                 } else if (restingOrder.restingShares === order.restingShares) { // If opposite side order's resting shares are equal to new order's resting shares
@@ -86,7 +90,7 @@ export default function bookReducer(state = {
                   stockArr[stockIndex][oppBuySell].prices[price[1]].orders[restingOrderIndex].restingShares = 0; // Opposite side order's resting shares are gone.
                   order = undefined;  // New order's resting shares are gone, therefore new order should never be placed on the book.
                 } else if (restingOrder.restingShares > order.restingShares) { // If opposite side order's resting shares are greater than new order's resting shares
-                  updatedExecutions.push({timestamp: timestamp(), ticker: stock.name, price: executionPrice, shares: restingOrder.restingShares - order.restingShares}); // Create new execution
+                  updatedExecutions.push({timestamp: timestamp(), ticker: stock.name, price: executionPrice, shares: order.restingShares}); // Create new execution
                   stockArr[stockIndex][oppBuySell].prices[price[1]].orders[restingOrderIndex].restingShares = stockArr[stockIndex][oppBuySell].prices[price[1]].orders[restingOrderIndex].restingShares - order.restingShares; // Update opposite side order's resting shares
                   order = undefined; // New order's resting shares are gone, therefore new order should never be placed on the book.
                 }
@@ -115,6 +119,7 @@ export default function bookReducer(state = {
         }
       })
       return { // Update state
+        ...state,
         stocks: updatedStocks,
         executions: updatedExecutions
       }

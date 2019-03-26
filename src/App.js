@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+import { updateFlag } from './actions/flags';
 
 import * as Section from './components/sections/styles';
 import Header from './components/ui/Header';
 import OrderForm from './components/order_form/OrderForm';
+import Graph from './components/graph/Graph';
 import TradingLog from './components/trading_log/TradingLog';
 
 import './App.css';
@@ -18,7 +22,8 @@ class App extends Component {
   changeStock = (value) => {
     this.setState({
       selectedStock: value
-    })
+    });
+    this.props.updateFlag([{type: 'stocks', flag: 'selected', value: value}])
   }
 
   render() {
@@ -33,7 +38,7 @@ class App extends Component {
               />
             </Section.Form>
             <Section.Graph>
-            test
+              <Graph />
             </Section.Graph>
             <Section.List>
             test
@@ -46,4 +51,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default connect(null, { updateFlag})(App);

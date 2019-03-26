@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
-
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core'
 
 import * as styles from './styles';
+import { updateFlag } from '../../actions/flags';
 
 import CloseIcon from '../ui/CloseIcon';
 
@@ -13,13 +13,23 @@ class TradingLog extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: false
+      open: false,
+      unreadExecutions: 0
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.executions.length < this.props.executions.length && !this.state.open) {
+      this.setState({
+        unreadExecutions: prevState.unreadExecutions + (this.props.executions.length - prevProps.executions.length)
+      })
     }
   }
 
   toggleOpen = () => {
     this.setState((prevState) => ({
-      open: !prevState.open
+      open: !prevState.open,
+      unreadExecutions: prevState.open ? prevState.unreadExecutions : 0
     }))
   }
 
@@ -57,7 +67,9 @@ class TradingLog extends Component {
     return (
       <styles.Container css={this.css()}>
         <styles.Tab onClick={this.toggleOpen}>
-          <styles.TabLeft>Trading Log</styles.TabLeft>
+          <styles.TabLeft>
+            Trading Log {this.state.unreadExecutions > 0 && <styles.UnreadCounter>{this.state.unreadExecutions}</styles.UnreadCounter>}
+          </styles.TabLeft>
           <styles.TabRight>
             {this.state.open ? <CloseIcon /> :
               <React.Fragment>
@@ -107,4 +119,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(TradingLog);
+export default connect(mapStateToProps, { updateFlag })(TradingLog);

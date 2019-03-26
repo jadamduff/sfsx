@@ -1,6 +1,12 @@
 const defaultFlagsState = {
   order: {
     status: 'init'
+  },
+  stocks: {
+    selected: 'init'
+  },
+  executions: {
+    unread: 0
   }
 }
 

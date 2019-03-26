@@ -39,7 +39,23 @@ export const Tab = styled.div`
 
 export const TabLeft = styled.div`
   grid-column: 1 / 2;
+  display: flex;
+  align-items: center;
   padding: 0 0 0 25px;
+`
+
+export const UnreadCounter = styled.div`
+  height: 28px;
+  min-width: 28px;
+  border-radius: 16px;
+  background-color: #6521D0;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 0 15px
 `
 
 export const TabRight = styled.div`
