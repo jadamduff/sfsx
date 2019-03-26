@@ -7,6 +7,7 @@ import * as Section from './components/sections/styles';
 import Header from './components/ui/Header';
 import OrderForm from './components/order_form/OrderForm';
 import Graph from './components/graph/Graph';
+import OrderList from './components/order_list/OrderList';
 import TradingLog from './components/trading_log/TradingLog';
 
 import './App.css';
@@ -23,7 +24,7 @@ class App extends Component {
     this.setState({
       selectedStock: value
     });
-    this.props.updateFlag([{type: 'stocks', flag: 'selected', value: value}])
+    this.props.updateFlag([{type: 'stocks', flag: 'selected', value: value}, {type: 'prices', flag: 'selected', value: false}])
   }
 
   render() {
@@ -38,10 +39,10 @@ class App extends Component {
               />
             </Section.Form>
             <Section.Graph>
-              <Graph />
+              <Graph selectPrice={this.selectPrice}/>
             </Section.Graph>
             <Section.List>
-            test
+              <OrderList selectedStock={this.state.selectedStock}/>
             </Section.List>
           </Section.Body>
         </Section.BodyGridContainer>
@@ -51,4 +52,4 @@ class App extends Component {
   }
 }
 
-export default connect(null, { updateFlag})(App);
+export default connect(null, { updateFlag })(App);

@@ -7,6 +7,9 @@ const defaultFlagsState = {
   },
   executions: {
     unread: 0
+  },
+  prices: {
+    selected: false
   }
 }
 

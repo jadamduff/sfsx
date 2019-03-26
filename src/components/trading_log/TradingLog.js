@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import { connect } from 'react-redux';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core'

@@ -34,4 +34,6 @@ export const Graph = styled.div`
 
 export const List = styled.div`
   grid-area: l;
+  padding: 40px 0 0 0;
+  box-sizing: border-box;
 `

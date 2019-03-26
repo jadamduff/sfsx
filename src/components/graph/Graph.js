@@ -26,6 +26,10 @@ class Graph extends Component {
     }
   }
 
+  handleSelect = (price) => {
+
+  }
+
   breakPoints = [4, 12, 50, 100, 500, 1000, 2500, 5000, 7500, 10000, 15000, 20000, 25000, 30000, 35000, 40000, 45000, 50000];
 
   setBreakPoints = () => {
@@ -87,9 +91,9 @@ class Graph extends Component {
           <styles.GraphBarWrapper>
             <styles.GraphBarContainer>
               <styles.GraphBarTop>
-                <styles.GraphBar height={height} backgroundColor={"#2962FF"}></styles.GraphBar>
+                <styles.GraphBar height={height} backgroundColor={"#2962FF"} onClick={() => this.props.updateFlag([{type: 'prices', flag: 'selected', value: { stock: this.props.selectedStockId, buySell: "buy", price: price.price}}])}></styles.GraphBar>
               </styles.GraphBarTop>
-              <styles.GraphBarBottom>{'$' + price.price}</styles.GraphBarBottom>
+              <styles.GraphBarBottom onClick={() => this.props.updateFlag([{type: 'prices', flag: 'selected', value: { stock: this.props.selectedStockId, buySell: "buy", price: price.price}}])}>{'$' + price.price}</styles.GraphBarBottom>
             </styles.GraphBarContainer>
           </styles.GraphBarWrapper>
         )
@@ -105,9 +109,9 @@ class Graph extends Component {
           <styles.GraphBarWrapper>
             <styles.GraphBarContainer>
               <styles.GraphBarTop>
-                <styles.GraphBar height={height} backgroundColor={"#E53935"}></styles.GraphBar>
+                <styles.GraphBar height={height} backgroundColor={"#E53935"} onClick={() => this.props.updateFlag([{type: 'prices', flag: 'selected', value: { stock: this.props.selectedStockId, buySell: "sell", price: price.price}}])}></styles.GraphBar>
               </styles.GraphBarTop>
-              <styles.GraphBarBottom>{price.price}</styles.GraphBarBottom>
+              <styles.GraphBarBottom onClick={() => this.props.updateFlag([{type: 'prices', flag: 'selected', value: { stock: this.props.selectedStockId, buySell: "sell", price: price.price}}])}>{price.price}</styles.GraphBarBottom>
             </styles.GraphBarContainer>
           </styles.GraphBarWrapper>
         )
